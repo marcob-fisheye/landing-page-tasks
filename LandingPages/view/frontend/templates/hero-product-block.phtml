@@ -1,0 +1,17 @@
+<?php declare(strict_types=1);
+
+use Marco\LandingPages\Block\HeroProduct;
+
+/* @var $block HeroProduct */
+
+$product = $block->getProduct();
+?>
+
+<div>
+    <?= $product->getSku() ?><br>
+    <?= $product->getName() ?><br>
+    <?= $product->getData('final_price') ?><br>
+    <?= $product->getData('small_image') ?><br>
+    <?= $product->getData('product_url') ?><br>
+    <?php dump($product->getData()) ?>
+</div>

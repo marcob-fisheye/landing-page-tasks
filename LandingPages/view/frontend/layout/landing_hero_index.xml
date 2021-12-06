@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd"
+      layout="empty">
+    <body>
+        <referenceBlock name="page.main.title">
+            <action method="setPageTitle">
+                <argument name="label" xsi:type="string" translate="true">Landing Pages - Product</argument>
+            </action>
+        </referenceBlock>
+
+        <referenceContainer name="main">
+            <block name="hero.product.block"
+                   class="Marco\LandingPages\Block\HeroProduct"
+                   template="Marco_LandingPages::hero-product-block.phtml"/>
+
+            <block name="hero.product.view.model"
+                   template="Marco_LandingPages::hero-product-view-model.phtml">
+                <arguments>
+                    <argument name="product.view.model" xsi:type="object">Marco\LandingPages\ViewModel\ProductViewModel</argument>
+                </arguments>
+            </block>
+        </referenceContainer>
+    </body>
+</page>

@@ -1,0 +1,20 @@
+<?php declare(strict_types=1);
+
+use Magento\Framework\View\Element\Template;
+use FisheyeAcademy\LayoutBlocks\ViewModel\ProductViewModel;
+
+/* @var $block Template */
+/* @var $productViewModel ProductViewModel */
+
+$productViewModel = $block->getData('product');
+$product = $productViewModel->getProduct();
+?>
+
+<div>
+    <?= $product->getSku() ?><br>
+    <?= $product->getName() ?><br>
+    <?= $product->getData('final_price') ?><br>
+    <?= $product->getData('small_image') ?><br>
+    <?= $product->getData('product_url') ?><br>
+    <?php dump($dish->getData()) ?>
+</div>
