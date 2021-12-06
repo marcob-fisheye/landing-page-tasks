@@ -6,7 +6,7 @@ use FisheyeAcademy\LayoutBlocks\ViewModel\ProductViewModel;
 /* @var $block Template */
 /* @var $productViewModel ProductViewModel */
 
-$productViewModel = $block->getData('product');
+$productViewModel = $block->getData('product_view_model');
 $product = $productViewModel->getProduct();
 ?>
 
@@ -16,5 +16,5 @@ $product = $productViewModel->getProduct();
     <?= $product->getData('final_price') ?><br>
     <?= $product->getData('small_image') ?><br>
     <?= $product->getData('product_url') ?><br>
-    <?php dump($dish->getData()) ?>
+    <?php dump($product->getData()) ?>
 </div>
