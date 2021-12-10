@@ -2,10 +2,9 @@
 
 use Marco\LandingPages\Block\HeroProduct;
 
-/* @var $block HeroProduct */
+/** @var $block HeroProduct */
 
 $product = $block->getProduct(1);
-// $imageUrl = $block->getImageUrl();
 $productUrl = $escaper->escapeUrl($product->getProductUrl());
 ?>
 
@@ -24,7 +23,7 @@ $productUrl = $escaper->escapeUrl($product->getProductUrl());
         </tr>
         <tr>
             <td class="label"><?= __('Name') ?></td>
-            <td><?= $product->getName() ?></td>
+            <td><a href="<?= $productUrl ?>"><?= $product->getName() ?></a></td>
         </tr>
         <tr>
             <td class="label"><?= __('Price') ?></td>
@@ -38,7 +37,7 @@ $productUrl = $escaper->escapeUrl($product->getProductUrl());
         </tr>
         <tr>
             <td class="label"><?= __('Link') ?></td>
-            <td><a href="<?= $productUrl ?>"><?= $productUrl ?></a></td>
+            <td><?= $productUrl ?></td>
         </tr>
     </table>
     <?php dump($product->getData()) ?>
