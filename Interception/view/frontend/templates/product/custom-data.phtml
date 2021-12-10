@@ -1,0 +1,11 @@
+<?php declare(strict_types=1);
+
+use Magento\Catalog\Block\Product\View\Description;
+/* @var $block Description */
+
+$product = $block->getProduct();
+?>
+
+<h2><?= __('Custom Data Output') ?></h2>
+
+<p><?= $product->getData('custom_data') ?></p>
