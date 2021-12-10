@@ -2,16 +2,43 @@
 
 use Marco\LandingPages\Block\HeroProduct;
 
-/* @var $block HeroProduct */
+/** @var $block HeroProduct */
 
-$product = $block->getProduct();
+$product = $block->getProduct(1);
+$productUrl = $escaper->escapeUrl($product->getProductUrl());
 ?>
 
+<style>
+.label {
+    font-weight: 700;
+}
+</style>
+
 <div>
-    <?= $product->getSku() ?><br>
-    <?= $product->getName() ?><br>
-    <?= $product->getData('final_price') ?><br>
-    <?= $product->getData('small_image') ?><br>
-    <?= $product->getData('product_url') ?><br>
+    <h2><?= __('Product Information') ?></h2>
+    <table>
+        <tr>
+            <td class="label"><?= __('SKU') ?></td>
+            <td><?= $product->getSku() ?></td>
+        </tr>
+        <tr>
+            <td class="label"><?= __('Name') ?></td>
+            <td><a href="<?= $productUrl ?>"><?= $product->getName() ?></a></td>
+        </tr>
+        <tr>
+            <td class="label"><?= __('Price') ?></td>
+            <td>
+                <?= $product->getFinalPrice() ?>
+            </td>
+        </tr>
+        <tr>
+            <td class="label"><?= __('Image') ?></td>
+            <td><?= $product->getData('small_image') ?></td>
+        </tr>
+        <tr>
+            <td class="label"><?= __('Link') ?></td>
+            <td><?= $productUrl ?></td>
+        </tr>
+    </table>
     <?php dump($product->getData()) ?>
 </div>
