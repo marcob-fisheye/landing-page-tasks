@@ -16,8 +16,11 @@ class ProductViewModel implements ArgumentInterface
         $this->productRepository = $productRepository;
     }
 
-    public function getProduct(): ProductInterface
+    /**
+     * @param int $id
+     */
+    public function getProduct($id): ProductInterface
     {
-        return $this->productRepository->getById(1);
+        return $this->productRepository->getById($id);
     }
 }
