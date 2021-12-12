@@ -52,8 +52,7 @@ class FeaturedCategories extends Template
         $categoryCollection = $this->categoryCollectionFactory->create();
 
         $categoryCollection->addAttributeToFilter(
-            'level',
-            ['eq' => $level]
+            'level', $level
         )
         ->setOrder($sort, $order);
 

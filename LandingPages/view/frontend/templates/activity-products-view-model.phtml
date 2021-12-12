@@ -1,0 +1,23 @@
+<?php declare(strict_types=1);
+
+use Marco\LandingPages\ViewModel\ActivityProducts;
+use Magento\Framework\View\Element\Template;
+
+/** @var $block Template */
+/** @var $activityProducts ActivityProducts */
+
+$activityProducts = $block->getData('activity_products');
+$products = $activityProducts->getProducts();
+?>
+
+<h2><?= __('Products View Model - count = ') . $products->getSize() ?></h2>
+
+<?php foreach ($products as $product): ?>
+
+    <h4><?= __('Name: ') . $product->getName() ?></h4>
+    <?= __('SKU: ') . $product->getSku() ?><br>
+    <?= __('Price: ') . $product->getPrice() ?><br>
+
+    <!-- <?php dump($product->getData()) ?> -->
+
+<?php endforeach ?>

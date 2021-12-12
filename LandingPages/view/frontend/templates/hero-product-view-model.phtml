@@ -1,12 +1,12 @@
 <?php declare(strict_types=1);
 
+use Marco\LandingPages\ViewModel\ProductViewModel;
 use Magento\Framework\View\Element\Template;
-use FisheyeAcademy\LayoutBlocks\ViewModel\ProductViewModel;
 use Magento\Framework\Escaper;
 
-/* @var $block Template */
-/* @var $productViewModel ProductViewModel */
-/* @var $escaper Escaper */
+/** @var $block Template */
+/** @var $productViewModel ProductViewModel */
+/** @var $escaper Escaper */
 
 $productViewModel = $block->getData('product_view_model');
 $product = $productViewModel->getProduct(2);
@@ -23,12 +23,12 @@ $productUrl = $escaper->escapeUrl($product->getProductUrl());
     <h2><?= __('Product Information View Model') ?></h2>
     <table>
         <tr>
-            <td class="label"><?= __('SKU') ?></td>
-            <td><?= $product->getSku() ?></td>
-        </tr>
-        <tr>
             <td class="label"><?= __('Name') ?></td>
             <td><a href="<?= $productUrl ?>"><?= $product->getName() ?></a></td>
+        </tr>
+        <tr>
+            <td class="label"><?= __('SKU') ?></td>
+            <td><?= $product->getSku() ?></td>
         </tr>
         <tr>
             <td class="label"><?= __('Price') ?></td>

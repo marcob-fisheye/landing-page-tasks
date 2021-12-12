@@ -1,8 +1,10 @@
 <?php declare(strict_types=1);
 
 use Marco\LandingPages\Block\HeroProduct;
+use Magento\Framework\Escaper;
 
 /** @var $block HeroProduct */
+/** @var $escaper Escaper */
 
 $product = $block->getProduct(1);
 $productUrl = $escaper->escapeUrl($product->getProductUrl());

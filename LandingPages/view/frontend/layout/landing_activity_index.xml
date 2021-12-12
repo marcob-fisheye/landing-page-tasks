@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd"
+      layout="empty">
+    <body>
+        <referenceContainer name="main">
+            <block name="activity.products.block"
+                   class="Marco\LandingPages\Block\ActivityProducts"
+                   template="Marco_LandingPages::activity-products-block.phtml"/>
+
+            <block name="activity.products.view.model"
+                   template="Marco_LandingPages::activity-products-view-model.phtml">
+                <arguments>
+                    <argument name="activity_products" xsi:type="object">Marco\LandingPages\ViewModel\ActivityProducts</argument>
+                </arguments>
+            </block>
+        </referenceContainer>
+    </body>
+</page>
