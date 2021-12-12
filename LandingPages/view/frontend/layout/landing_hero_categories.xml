@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_layout.xsd">
+    <update handle="landing_hero_index"/>
+    <referenceBlock name="page.main.title">
+        <action method="setPageTitle">
+            <argument name="label" xsi:type="string" translate="true">Hero Page: Product &amp; Categories</argument>
+        </action>
+    </referenceBlock>
+    <referenceBlock name="main">
+        <block name="featured.categories.block"
+               class="Marco\LandingPages\Block\FeaturedCategories"
+               template="Marco_LandingPages::featured-categories-block.phtml"
+               after="hero.product.block"/>
+
+        <block name="featured.categories.view.model"
+               template="Marco_LandingPages::featured-categories-view-model.phtml"
+               after="featured.categories.block">
+                <arguments>
+                    <argument name="featured_categories" xsi:type="object">Marco\LandingPages\ViewModel\FeaturedCategories</argument>
+                </arguments>
+            </block>
+    </referenceBlock>
+</layout>
