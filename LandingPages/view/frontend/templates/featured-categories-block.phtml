@@ -1,0 +1,49 @@
+<?php declare(strict_types=1);
+
+use Marco\LandingPages\Block\FeaturedCategories;
+use Magento\Framework\Escaper;
+
+/** @var $block FeaturedCategories */
+/** @var $escaper Escaper */
+
+$category1 = $block->getCategoryByResource(2);
+$category2 = $block->getCategoryByResource(3);
+$category3 = $block->getCategoryByResource(4);
+$categories = $block->getCategories(2, 'name', 'desc');
+?>
+
+<h2><?= __('Categories Block') ?></h2>
+<ul style="display: flex; column-gap: 20px; list-style-type: none; padding: 0;">
+    <?php foreach ($categories as $category): ?>
+
+        <?php $id = (int)$category->getData('entity_id'); ?>
+        <?php $resource = $block->getCategoryByResource($id); ?>
+
+        <li>
+            <a href="<?= $escaper->escapeUrl($resource->getUrl()) ?>">
+                <?= __($resource->getName()) ?>
+            </a>
+        </li>
+
+    <?php endforeach ?>
+</ul>
+
+<!-- <ul>
+    <li>
+        <a href="<?= $escaper->escapeUrl($category1->getUrl()) ?>">
+            <?= __($category1->getName()) ?>
+        </a>
+    </li>
+    <li>
+        <a href="<?= $escaper->escapeUrl($category2->getUrl()) ?>">
+            <?= __($category2->getName()) ?>
+        </a>
+    </li>
+    <li>
+        <a href="<?= $escaper->escapeUrl($category3->getUrl()) ?>">
+            <?= __($category3->getName()) ?>
+        </a>
+    </li>
+</ul> -->
+
+<!-- <?php dump($categories->getData()) ?> -->

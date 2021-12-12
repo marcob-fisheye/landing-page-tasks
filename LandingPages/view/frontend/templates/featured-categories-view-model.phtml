@@ -1,0 +1,14 @@
+<?php declare(strict_types=1);
+
+use Marco\LandingPages\ViewModel\FeaturedCategories;
+use Magento\Framework\View\Element\Template;
+
+/* @var $block Template */
+/* @var $featuredCategories FeaturedCategories */
+
+$featuredCategories = $block->getData('featured_categories');
+$category = $featuredCategories->getCategory(3);
+$category2 = $featuredCategories->getCategoryByResource(3);
+?>
+
+<h2><?= __('Categories View Model') ?></h2>
