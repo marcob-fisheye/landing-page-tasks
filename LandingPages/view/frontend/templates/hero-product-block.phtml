@@ -1,18 +1,28 @@
 <?php declare(strict_types=1);
 
 use Marco\LandingPages\Block\HeroProduct;
+use Magento\Catalog\Helper\Image;
 use Magento\Framework\Escaper;
 
 /** @var $block HeroProduct */
 /** @var $escaper Escaper */
 
-$product = $block->getProduct(1);
+$productId = 1;
+$product = $block->getProduct($productId);
+$price = $product->getFinalPrice();
+$currency = $block->getCurrencyAndPrice($price);
 $productUrl = $escaper->escapeUrl($product->getProductUrl());
+$mediaUrl = $escaper->escapeUrl($block->getMediaUrl());
+$imageUrl = $escaper->escapeUrl($product->getData('small_image'));
 ?>
 
 <style>
 .label {
     font-weight: 700;
+}
+
+tr td:first-child {
+    width: 20%;
 }
 </style>
 
@@ -29,13 +39,18 @@ $productUrl = $escaper->escapeUrl($product->getProductUrl());
         </tr>
         <tr>
             <td class="label"><?= __('Price') ?></td>
-            <td>
-                <?= $product->getFinalPrice() ?>
-            </td>
+            <td><?= $currency ?></td>
         </tr>
         <tr>
-            <td class="label"><?= __('Image') ?></td>
-            <td><?= $product->getData('small_image') ?></td>
+            <td class="label"><?= __('Media Base Url') ?></td>
+            <td><?= $mediaUrl ?></td>
+        </tr>
+        <tr>
+            <td class="label"><?= __('Image Url key') ?></td>
+            <td>
+                <?= $imageUrl ?><br>
+                <img src="<?= $mediaUrl . 'catalog/product' . $imageUrl ?>" width="150">
+            </td>
         </tr>
         <tr>
             <td class="label"><?= __('Link') ?></td>

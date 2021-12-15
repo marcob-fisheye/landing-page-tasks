@@ -25,5 +25,6 @@
 
     <referenceContainer name="header-wrapper" remove="true" />
     <move element="featured.categories.block" destination="additional"/>
+    <move element="featured.categories.view.model" destination="additional"/>
 
 </layout>

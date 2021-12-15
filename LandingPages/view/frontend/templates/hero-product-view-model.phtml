@@ -8,14 +8,22 @@ use Magento\Framework\Escaper;
 /** @var $productViewModel ProductViewModel */
 /** @var $escaper Escaper */
 
+$productId = 2;
 $productViewModel = $block->getData('product_view_model');
-$product = $productViewModel->getProduct(2);
+$product = $productViewModel->getProduct($productId);
+$price = $product->getFinalPrice();
+$currency = $productViewModel->getCurrencyAndPrice($price);
 $productUrl = $escaper->escapeUrl($product->getProductUrl());
+$imageUrl = $escaper->escapeUrl($productViewModel->getImageUrl($productId));
 ?>
 
 <style>
 .label {
     font-weight: 700;
+}
+
+tr td:first-child {
+    width: 20%;
 }
 </style>
 
@@ -32,11 +40,14 @@ $productUrl = $escaper->escapeUrl($product->getProductUrl());
         </tr>
         <tr>
             <td class="label"><?= __('Price') ?></td>
-            <td><?= $product->getFinalPrice() ?></td>
+            <td><?= $currency ?></td>
         </tr>
         <tr>
-            <td class="label"><?= __('Image') ?></td>
-            <td><?= $product->getData('small_image') ?></td>
+            <td class="label"><?= __('Image Url') ?></td>
+            <td>
+                <?= $imageUrl ?><br>
+                <img src="<?= $imageUrl ?>">
+            </td>
         </tr>
         <tr>
             <td class="label"><?= __('Link') ?></td>

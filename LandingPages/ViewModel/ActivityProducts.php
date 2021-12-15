@@ -4,16 +4,28 @@ namespace Marco\LandingPages\ViewModel;
 
 use Magento\Catalog\Model\ResourceModel\Product\Collection;
 use Magento\Catalog\Model\ResourceModel\Product\CollectionFactory;
+use Magento\Catalog\Api\ProductRepositoryInterface;
+use Magento\Catalog\Helper\Image;
+use Magento\Framework\Pricing\PriceCurrencyInterface;
 use Magento\Framework\View\Element\Block\ArgumentInterface;
 
 class ActivityProducts implements ArgumentInterface
 {
     protected CollectionFactory $collectionFactory;
+    protected ProductRepositoryInterface $productRepository;
+    protected PriceCurrencyInterface $priceCurrency;
+    protected Image $imageHelper;
 
     public function __construct(
-        CollectionFactory $collectionFactory
+        CollectionFactory $collectionFactory,
+        ProductRepositoryInterface $productRepository,
+        PriceCurrencyInterface $priceCurrency,
+        Image $imageHelper
     ) {
         $this->collectionFactory = $collectionFactory;
+        $this->productRepository = $productRepository;
+        $this->priceCurrency = $priceCurrency;
+        $this->imageHelper = $imageHelper;
     }
 
     public function getProducts(): Collection
@@ -22,22 +34,38 @@ class ActivityProducts implements ArgumentInterface
         $products = $this->collectionFactory->create();
 
         $products->addAttributeToFilter(
-                'price',
-                ['gt' => 50]
-            )
-            ->addAttributeToFilter(
-                'type_id',
-                ['eq' => 'simple']
-            )
-            ->addAttributeToSelect('name')
-            ->addAttributeToSelect('price')
-            ->addAttributeToSelect('color')
-            ->addAttributeToSelect('description')
-            ->setOrder('price', 'asc');
+            'status', 1
+        )
+        ->addAttributeToFilter(
+            'visibility', 4
+        )
+        ->addAttributeToFilter(
+            'activity', ['notnull' => true]
+        )
+        ->addAttributeToSelect('price')
+        ->addAttributeToSelect('small_image');
 
-        $products->setPageSize(5);
-        $products->setPage(2, 5);
+        $products->setPageSize(12)->setOrder('name', 'asc');
 
         return $products;
+    }
+
+    /**
+     * @param float $price
+     * @return string
+     */
+    public function getCurrencyAndPrice($price)
+    {
+        return $this->priceCurrency->format($price, true, 2);
+    }
+
+    /**
+     * @param int $id
+     * @return string
+     */
+    public function getImageUrl($id)
+    {
+        $product = $this->productRepository->getById($id);
+        return $this->imageHelper->init($product, 'product_small_image')->getUrl();
     }
 }

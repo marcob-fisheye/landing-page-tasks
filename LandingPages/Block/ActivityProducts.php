@@ -4,21 +4,29 @@ namespace Marco\LandingPages\Block;
 
 use Magento\Catalog\Model\ResourceModel\Product\Collection;
 use Magento\Catalog\Model\ResourceModel\Product\CollectionFactory;
-use Magento\Framework\View\Element\Template;
+use Magento\Catalog\Api\ProductRepositoryInterface;
 use Magento\Catalog\Helper\Image;
+use Magento\Framework\Pricing\PriceCurrencyInterface;
+use Magento\Framework\View\Element\Template;
 
 class ActivityProducts extends Template
 {
     protected CollectionFactory $collectionFactory;
+    protected ProductRepositoryInterface $productRepository;
+    protected PriceCurrencyInterface $priceCurrency;
     protected Image $imageHelper;
 
     public function __construct(
         CollectionFactory $collectionFactory,
+        ProductRepositoryInterface $productRepository,
+        PriceCurrencyInterface $priceCurrency,
         Image $imageHelper,
         Template\Context $context,
         array $data = []
     ) {
         $this->collectionFactory = $collectionFactory;
+        $this->productRepository = $productRepository;
+        $this->priceCurrency = $priceCurrency;
         $this->imageHelper = $imageHelper;
         parent::__construct($context, $data);
     }
@@ -45,9 +53,22 @@ class ActivityProducts extends Template
         return $products;
     }
 
-    // public function getImageUrl()
-    // {
-    //     $image_url = $this->imageHelper->init($product, 'product_small_image')->getUrl();
-    //     return $image_url;
-    // }
+    /**
+     * @param float $price
+     * @return string
+     */
+    public function getCurrencyAndPrice($price)
+    {
+        return $this->priceCurrency->format($price, true, 2);
+    }
+
+    /**
+     * @param int $id
+     * @return string
+     */
+    public function getImageUrl($id)
+    {
+        $product = $this->productRepository->getById($id);
+        return $this->imageHelper->init($product, 'product_small_image')->getUrl();
+    }
 }

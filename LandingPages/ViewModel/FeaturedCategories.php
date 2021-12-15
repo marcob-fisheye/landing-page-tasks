@@ -2,39 +2,32 @@
 
 namespace Marco\LandingPages\ViewModel;
 
-use Magento\Catalog\Model\Category;
-use Magento\Catalog\Model\CategoryFactory;
-use Magento\Catalog\Model\ResourceModel\Category as ResourceCategory;
+use Magento\Catalog\Model\ResourceModel\Category\Collection;
+use Magento\Catalog\Model\ResourceModel\Category\CollectionFactory;
 use Magento\Framework\View\Element\Block\ArgumentInterface;
 
 class FeaturedCategories implements ArgumentInterface
 {
-    protected CategoryFactory $categoryFactory;
-    protected ResourceCategory $resourceCategory;
+    protected CollectionFactory $categoryCollectionFactory;
 
     public function __construct (
-        CategoryFactory $categoryFactory,
-        ResourceCategory $resourceCategory
+        CollectionFactory $categoryCollectionFactory
     )
     {
-        $this->categoryFactory = $categoryFactory;
-        $this->resourceCategory = $resourceCategory;
+        $this->categoryCollectionFactory = $categoryCollectionFactory;
     }
 
-    public function getCategory(int $id): Category
+    public function getCategories($level, $size, $sort, $order): Collection
     {
-        /** @var $category Category */
-        $category = $this->categoryFactory->create();
+        /** @var $categoryCollection Collection */
+        $categoryCollection = $this->categoryCollectionFactory->create();
 
-        return $category;
-    }
+        $categoryCollection->addAttributeToFilter(
+            'level', $level
+        )
+        ->setPageSize($size)
+        ->setOrder($sort, $order);
 
-    public function getCategoryByResource(int $id): Category
-    {
-        /** @var $category Category */
-        $category = $this->categoryFactory->create();
-        $this->resourceCategory->load($category, $id);
-
-        return $category;
+        return $categoryCollection;
     }
 }

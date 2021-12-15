@@ -15,7 +15,7 @@
 
         <block name="featured.categories.view.model"
                template="Marco_LandingPages::featured-categories-view-model.phtml"
-               after="featured.categories.block">
+               after="hero.product.view.model">
                 <arguments>
                     <argument name="featured_categories" xsi:type="object">Marco\LandingPages\ViewModel\FeaturedCategories</argument>
                 </arguments>

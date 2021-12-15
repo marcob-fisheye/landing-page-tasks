@@ -2,13 +2,25 @@
 
 use Marco\LandingPages\ViewModel\FeaturedCategories;
 use Magento\Framework\View\Element\Template;
+use Magento\Framework\Escaper;
 
-/* @var $block Template */
-/* @var $featuredCategories FeaturedCategories */
+/** @var $featuredCategories FeaturedCategories */
+/** @var $block Template */
+/** @var $escaper Escaper */
 
 $featuredCategories = $block->getData('featured_categories');
-$category = $featuredCategories->getCategory(3);
-$category2 = $featuredCategories->getCategoryByResource(3);
+$categories = $featuredCategories->getCategories(2, 3, 'name', 'desc');
 ?>
 
 <h2><?= __('Categories View Model') ?></h2>
+<ul style="display: flex; column-gap: 20px; list-style-type: none; padding: 0;">
+    <?php foreach ($categories as $category): ?>
+
+        <li>
+            <a href="<?= $escaper->escapeUrl($category->getUrl()) ?>">
+                <?= __($category->getName()) ?>
+            </a>
+        </li>
+
+    <?php endforeach ?>
+</ul>

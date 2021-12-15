@@ -9,19 +9,16 @@ use Magento\Framework\Escaper;
 $category1 = $block->getCategoryByResource(2);
 $category2 = $block->getCategoryByResource(3);
 $category3 = $block->getCategoryByResource(4);
-$categories = $block->getCategories(2, 'name', 'desc');
+$categories = $block->getCategories(2, 'name', 'asc');
 ?>
 
 <h2><?= __('Categories Block') ?></h2>
 <ul style="display: flex; column-gap: 20px; list-style-type: none; padding: 0;">
     <?php foreach ($categories as $category): ?>
 
-        <?php $id = (int)$category->getData('entity_id'); ?>
-        <?php $resource = $block->getCategoryByResource($id); ?>
-
         <li>
-            <a href="<?= $escaper->escapeUrl($resource->getUrl()) ?>">
-                <?= __($resource->getName()) ?>
+            <a href="<?= $escaper->escapeUrl($category->getUrl()) ?>">
+                <?= __($category->getName()) ?>
             </a>
         </li>
 

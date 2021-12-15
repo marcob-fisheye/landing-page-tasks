@@ -6,6 +6,7 @@ use Magento\Framework\Escaper;
 /** @var $block ActivityProducts */
 /** @var $escaper Escaper */
 
+$activity = 'Gym';
 $products = $block->getProducts();
 ?>
 
@@ -15,53 +16,61 @@ $products = $block->getProducts();
 }
 </style>
 
-<h2><?= __('Products Block - count = ') . $products->getSize() ?></h2>
+<h2><?=  $activity . __(' Products Block') ?></h2>
 
 <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px;">
 
     <?php foreach ($products as $product): ?>
 
+        <?php $price = $product->getFinalPrice(); ?>
+        <?php $currency = $block->getCurrencyAndPrice($price); ?>
         <?php $productUrl = $escaper->escapeUrl($product->getProductUrl()); ?>
+        <?php $id = $product->getId(); ?>
+        <?php $imageUrl = $escaper->escapeUrl($block->getImageUrl($id)); ?>
+        <?php $activities_id = explode(',', $product->getData('activity')); ?>
+        <?php $values = []; ?>
 
-        <table>
-            <tr>
-                <td class="label"><?= __('Name') ?></td>
-                <td><a href="<?= $productUrl ?>"><?= $product->getName() ?></a></td>
-            </tr>
-            <tr>
-                <td class="label"><?= __('SKU') ?></td>
-                <td><?= $product->getSku() ?></td>
-            </tr>
-            <tr>
-                <td class="label"><?= __('Price') ?></td>
-                <td>
-                    <?= $product->getFinalPrice() ?>
-                </td>
-            </tr>
-            <tr>
-                <td class="label"><?= __('Image') ?></td>
-                <td><?= $product->getData('small_image') ?></td>
-            </tr>
-            <tr>
-                <td class="label"><?= __('Activity') ?></td>
-                <td>
-                    <?php $activities_id = explode(',', $product->getData('activity')); ?>
-                    <?php $values = []; ?>
+        <?php foreach($activities_id as $activity_id): ?>
 
-                    <?php foreach($activities_id as $activity_id): ?>
-                        <?php $attribute = $product->getResource()->getAttribute('activity'); ?>
-                        <?php $values[] = $attribute->getSource()->getOptionText($activity_id); ?>
-                    <?php endforeach;?>
-                       
-                    <?php $activities_values = implode(', ', $values); ?>
-                    <?= $activities_values ?>
-                </td>
-            </tr>
-            <tr>
-                <td class="label"><?= __('Link') ?></td>
-                <td><?= $productUrl ?></td>
-            </tr>
-        </table>
+            <?php $attribute = $product->getResource()->getAttribute('activity'); ?>
+            <?php $values[] = $attribute->getSource()->getOptionText($activity_id); ?>
+            
+        <?php endforeach;?>
+
+        <?php if (in_array($activity, $values)): ?>
+
+            <table>
+                <tr>
+                    <td class="label"><?= __('Name') ?></td>
+                    <td><a href="<?= $productUrl ?>"><?= $product->getName() ?></a></td>
+                </tr>
+                <tr>
+                    <td class="label"><?= __('SKU') ?></td>
+                    <td><?= $product->getSku() ?></td>
+                </tr>
+                <tr>
+                    <td class="label"><?= __('Price') ?></td>
+                    <td>
+                        <?= $currency ?>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="label"><?= __('Image') ?></td>
+                    <td><img src="<?= $imageUrl ?>"></td>
+                </tr>
+                <tr>
+                    <td class="label"><?= __('Activity') ?></td>
+                    <td>
+                        <?= $activity ?>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="label"><?= __('Link') ?></td>
+                    <td><?= $productUrl ?></td>
+                </tr>
+            </table>
+
+        <?php endif ?>
 
         <!-- <?php dump($product->getData()) ?> -->
 

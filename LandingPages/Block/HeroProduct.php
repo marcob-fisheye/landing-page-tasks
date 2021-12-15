@@ -4,22 +4,26 @@ namespace Marco\LandingPages\Block;
 
 use Magento\Catalog\Api\Data\ProductInterface;
 use Magento\Catalog\Api\ProductRepositoryInterface;
+use Magento\Framework\Pricing\PriceCurrencyInterface;
+use Magento\Store\Model\StoreManagerInterface;
 use Magento\Framework\View\Element\Template;
-use Magento\Catalog\Helper\Image;
 
 class HeroProduct extends Template
 {
     protected ProductRepositoryInterface $productRepository;
-    protected Image $imageHelper;
+    protected PriceCurrencyInterface $priceCurrency;
+    protected StoreManagerInterface $storeManager;
 
     public function __construct(
         ProductRepositoryInterface $productRepository,
-        Image $imageHelper,
+        PriceCurrencyInterface $priceCurrency,
+        StoreManagerInterface $storeManager,
         Template\Context $context,
         array $data = []
     ) {
         $this->productRepository = $productRepository;
-        $this->imageHelper = $imageHelper;
+        $this->priceCurrency = $priceCurrency;
+        $this->storeManager = $storeManager;
         parent::__construct($context, $data);
     }
 
@@ -32,9 +36,22 @@ class HeroProduct extends Template
         return $product;
     }
 
-    // public function getImageUrl()
-    // {
-    //     $image_url = $this->imageHelper->init($product, 'product_small_image')->getUrl();
-    //     return $image_url;
-    // }
+    /**
+     * @param float $price
+     * @return string
+     */
+    public function getCurrencyAndPrice($price)
+    {
+        return $this->priceCurrency->format($price, true, 2);
+    }
+
+    /**
+     * @return string
+     */
+    public function getMediaUrl()
+    {
+        $store = $this->storeManager->getStore();
+        $mediaUrl = $store->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA);
+        return $mediaUrl;
+    }
 }
