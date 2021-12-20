@@ -3,6 +3,7 @@
 namespace Marco\LandingPages\ViewModel;
 
 use Magento\Catalog\Api\CategoryListInterface;
+use Magento\Catalog\Api\Data\CategorySearchResultsInterface;
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\Api\SortOrder;
 use Magento\Framework\Api\SortOrderBuilder;
@@ -29,19 +30,19 @@ class FeaturedCategories implements ArgumentInterface
      * @param int $size
      * @param string $order
      */
-    public function getCategories($level, $size, $order): array
+    public function getCategories($level, $size, $order): CategorySearchResultsInterface
     {
         $this->searchCriteriaBuilder->addFilter('level', $level);
         $this->searchCriteriaBuilder->setPageSize($size);
 
         $sortOrder = $this->sortOrderBuilder
             ->setField($order)
-            ->setDirection(SortOrder::SORT_DESC)
+            ->setDirection(SortOrder::SORT_ASC)
             ->create();
         $this->searchCriteriaBuilder->addSortOrder($sortOrder);
 
         $searchCriteria = $this->searchCriteriaBuilder->create();
-
-        return $this->categoryList->getList($searchCriteria)->getItems();
+       
+        return $this->categoryList->getList($searchCriteria);
     }
 }

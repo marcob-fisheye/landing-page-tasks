@@ -9,7 +9,7 @@ use Magento\Framework\Escaper;
 /** @var $escaper Escaper */
 
 $featuredCategories = $block->getData('featured_categories');
-$categories = $featuredCategories->getCategories(2, 3, 'name')->getItems();
+$categories = $featuredCategories->getCategories(2, 3, 'name');
 ?>
 
 <h2><?= __('Categories View Model') ?></h2>
