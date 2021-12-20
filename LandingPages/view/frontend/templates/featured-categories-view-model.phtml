@@ -9,7 +9,7 @@ use Magento\Framework\Escaper;
 /** @var $escaper Escaper */
 
 $featuredCategories = $block->getData('featured_categories');
-$categories = $featuredCategories->getCategories(2, 3, 'name', 'desc');
+$categories = $featuredCategories->getCategories(2, 3, 'name')->getItems();
 ?>
 
 <h2><?= __('Categories View Model') ?></h2>
@@ -20,6 +20,7 @@ $categories = $featuredCategories->getCategories(2, 3, 'name', 'desc');
             <a href="<?= $escaper->escapeUrl($category->getUrl()) ?>">
                 <?= __($category->getName()) ?>
             </a>
+            <!-- <?php dump($category->getData()); ?> -->
         </li>
 
     <?php endforeach ?>
