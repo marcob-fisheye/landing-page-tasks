@@ -24,12 +24,7 @@ class FeaturedCategories implements ArgumentInterface
         $this->sortOrderBuilder = $SortOrderBuilder;
     }
 
-    /**
-     * @param int $level
-     * @param int $size
-     * @param string $order
-     */
-    public function getCategories($level, $size, $order): array
+    public function getCategories(int $level, int $size, string $order): array
     {
         $this->searchCriteriaBuilder->addFilter('level', $level);
         $this->searchCriteriaBuilder->setPageSize($size);

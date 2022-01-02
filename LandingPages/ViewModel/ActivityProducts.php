@@ -7,6 +7,7 @@ use Magento\Catalog\Model\ResourceModel\Product\CollectionFactory;
 use Magento\Catalog\Api\ProductRepositoryInterface;
 use Magento\Catalog\Helper\Image;
 use Magento\Framework\Pricing\PriceCurrencyInterface;
+use Magento\Framework\App\Request\Http;
 use Magento\Framework\View\Element\Block\ArgumentInterface;
 
 class ActivityProducts implements ArgumentInterface
@@ -15,23 +16,39 @@ class ActivityProducts implements ArgumentInterface
     protected ProductRepositoryInterface $productRepository;
     protected PriceCurrencyInterface $priceCurrency;
     protected Image $imageHelper;
+    protected Http $httpRequest;
 
     public function __construct(
         CollectionFactory $collectionFactory,
         ProductRepositoryInterface $productRepository,
         PriceCurrencyInterface $priceCurrency,
-        Image $imageHelper
+        Image $imageHelper,
+        Http $httpRequest
     ) {
         $this->collectionFactory = $collectionFactory;
         $this->productRepository = $productRepository;
         $this->priceCurrency = $priceCurrency;
         $this->imageHelper = $imageHelper;
+        $this->httpRequest = $httpRequest;
     }
 
     public function getProducts(): Collection
     {
+        /** @var $parameterValue int */
+        $parameterValue = $this->httpRequest->getParam('activity_id');
+        
         /** @var $products Collection */
         $products = $this->collectionFactory->create();
+
+        if ($parameterValue) {
+            $products->addAttributeToFilter(
+                'activity', ['finset' => $parameterValue]
+            );
+        } else {
+            $products->addAttributeToFilter(
+                'activity', ['notnull' => true]
+            );
+        }
 
         $products->addAttributeToFilter(
             'status', 1

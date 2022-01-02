@@ -24,28 +24,23 @@ class ProductViewModel implements ArgumentInterface
         $this->imageHelper = $imageHelper;
     }
 
-    /**
-     * @param int $id
-     */
-    public function getProduct($id): ProductInterface
+    public function getProduct(int $id): ProductInterface
     {
         return $this->productRepository->getById($id);
     }
 
     /**
-     * @param float $price
      * @return string
      */
-    public function getCurrencyAndPrice($price)
+    public function getCurrencyAndPrice(float $price)
     {
         return $this->priceCurrency->format($price, true, 2);
     }
 
     /**
-     * @param int $id
      * @return string
      */
-    public function getImageUrl($id)
+    public function getImageUrl(int $id)
     {
         $product = $this->productRepository->getById($id);
         return $this->imageHelper->init($product, 'product_small_image')->getUrl();

@@ -2,6 +2,7 @@
 
 namespace Marco\LandingPages\Block;
 
+use Magento\Catalog\Model\Product\Attribute\Repository;
 use Magento\Catalog\Model\ResourceModel\Product\Collection;
 use Magento\Catalog\Model\ResourceModel\Product\CollectionFactory;
 use Magento\Catalog\Api\ProductRepositoryInterface;
@@ -11,12 +12,14 @@ use Magento\Framework\View\Element\Template;
 
 class ActivityProducts extends Template
 {
+    protected Repository $attributeRepository;
     protected CollectionFactory $collectionFactory;
     protected ProductRepositoryInterface $productRepository;
     protected PriceCurrencyInterface $priceCurrency;
     protected Image $imageHelper;
 
     public function __construct(
+        Repository $attributeRepository,
         CollectionFactory $collectionFactory,
         ProductRepositoryInterface $productRepository,
         PriceCurrencyInterface $priceCurrency,
@@ -24,6 +27,7 @@ class ActivityProducts extends Template
         Template\Context $context,
         array $data = []
     ) {
+        $this->attributeRepository = $attributeRepository;
         $this->collectionFactory = $collectionFactory;
         $this->productRepository = $productRepository;
         $this->priceCurrency = $priceCurrency;
@@ -31,10 +35,25 @@ class ActivityProducts extends Template
         parent::__construct($context, $data);
     }
 
-    public function getProducts(): Collection
+    /**
+     * Get attributes and return activity attribute id
+     *
+     * @return int
+     */
+    public function getOptionId(string $attributeName, string $optionText)
+    {
+        $attribute = $this->attributeRepository->get($attributeName);
+        $optionId = $attribute->getSource()->getOptionId($optionText);
+        
+        return $optionId;
+    }
+    
+    public function getProducts(string $attributeName, string $optionText): Collection
     {
         /** @var $products Collection */
         $products = $this->collectionFactory->create();
+
+        $optionId = $this->getOptionId($attributeName, $optionText);
 
         $products->addAttributeToFilter(
             'status', 1
@@ -43,7 +62,7 @@ class ActivityProducts extends Template
             'visibility', 4
         )
         ->addAttributeToFilter(
-            'activity', ['notnull' => true]
+            $attributeName, ['finset' => $optionId]
         )
         ->addAttributeToSelect('price')
         ->addAttributeToSelect('small_image');

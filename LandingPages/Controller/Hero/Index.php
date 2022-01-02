@@ -20,8 +20,6 @@ class Index implements HttpGetActionInterface
     {
         /** @var PageResult $pageResult */
         $pageResult = $this->resultFactory->create(ResultFactory::TYPE_PAGE);
-        $defaultHandle = $pageResult->getDefaultLayoutHandle();
-        $pageResult->getLayout()->getUpdate()->addHandle($defaultHandle);
         $pageResult->getConfig()->getTitle()->set(__('Hero Page: Product'));
         return $pageResult;
     }

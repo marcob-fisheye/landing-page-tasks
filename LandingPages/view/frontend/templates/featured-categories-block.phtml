@@ -18,7 +18,7 @@ $categories = $block->getCategories(2, 'name', 'asc');
 
         <li>
             <a href="<?= $escaper->escapeUrl($category->getUrl()) ?>">
-                <?= __($category->getName()) ?>
+                <?= $category->getName() ?>
             </a>
         </li>
 
@@ -28,17 +28,17 @@ $categories = $block->getCategories(2, 'name', 'asc');
 <!-- <ul>
     <li>
         <a href="<?= $escaper->escapeUrl($category1->getUrl()) ?>">
-            <?= __($category1->getName()) ?>
+            <?= $category1->getName() ?>
         </a>
     </li>
     <li>
         <a href="<?= $escaper->escapeUrl($category2->getUrl()) ?>">
-            <?= __($category2->getName()) ?>
+            <?= $category2->getName() ?>
         </a>
     </li>
     <li>
         <a href="<?= $escaper->escapeUrl($category3->getUrl()) ?>">
-            <?= __($category3->getName()) ?>
+            <?= $category3->getName() ?>
         </a>
     </li>
 </ul> -->
